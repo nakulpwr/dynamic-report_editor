@@ -1,0 +1,12 @@
+//[{"field-name": "name","type": "text", "required":true},
+//  {"field-name": "age","type": "number","min":18, "max":65, "required":true},
+//  {"field-name": "gender","type": "dropdown","options": ["male","female","other"]},
+//  {"field-name": "address","type": "multiline"}]
+[{"field-name": "name","type": "text", "required":true},
+  {"field-name": "age","type": "number","min":18, "max":65, "required":true},
+  {"field-name": "gender","type": "dropdown","options": ["male","female","other"]},
+  {"field-name": "address","type": "composite", "value":[{"field-name": "line1","type": "text", "required":true},
+    {"field-name": "line2","type": "text" },
+    {"field-name": "state","type": "dropdown","options": ["karnataka","Andhra","Telangana", "TamilNadu", "Kerala"]}] }
+
+]
