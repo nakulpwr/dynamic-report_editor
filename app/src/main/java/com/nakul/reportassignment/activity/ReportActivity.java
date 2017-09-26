@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ReportActivity extends AppCompatActivity {
 
@@ -220,6 +221,7 @@ public class ReportActivity extends AppCompatActivity {
         for (ReportDataModel reportModel : reportdataModel.getComposite()) {
             TextView compositeTxtView = new TextView(this);
             compositeTxtView.setText(reportModel.getFieldName());
+            compositeTxtView.setTag(reportModel.getFieldName());
             if (compositeKeyValue.containsKey(JsonHelper.getUpperCaseString(reportModel.getFieldName())))
                 compositeTxtView.setText((String) compositeKeyValue.get(JsonHelper.getUpperCaseString(reportModel.getFieldName())));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -273,7 +275,7 @@ public class ReportActivity extends AppCompatActivity {
                 View childView = compositeLayout.getChildAt(i);
                 if (childView instanceof TextView) {
                     TextView text = (TextView) childView;
-                    text.setText(object.getString(JsonHelper.getUpperCaseString(text.getText().toString())));
+                    text.setText(object.getString(JsonHelper.getUpperCaseString(text.getTag().toString())));
                 }
             }
         } catch (JSONException e) {
