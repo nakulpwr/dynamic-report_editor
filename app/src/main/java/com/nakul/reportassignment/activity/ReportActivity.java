@@ -203,7 +203,8 @@ public class ReportActivity extends AppCompatActivity {
 
         if (!keyValues.isEmpty()) {
             try {
-                json = new JSONObject(keyValues.get(reportdataModel.getFieldName()).toString());
+                if (keyValues.get(reportdataModel.getFieldName()) != null)
+                    json = new JSONObject(keyValues.get(reportdataModel.getFieldName()).toString());
                 compositeKeyValue = JsonHelper.toMap(json);
             } catch (JSONException e) {
                 Log.e(LOG_TAG, e.getMessage());
