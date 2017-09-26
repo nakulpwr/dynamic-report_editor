@@ -70,25 +70,17 @@ public class ReportActivity extends AppCompatActivity {
             }
         });
         Intent dataIntent = getIntent();
-        if (!dataIntent.getBooleanExtra("isEdit", false) && !dataIntent.getBooleanExtra("isComposite", false))
+        isEdit = dataIntent.getBooleanExtra("isEdit", false);
+        isComposite = dataIntent.getBooleanExtra("isComposite", false);
+        if (!isEdit && !isComposite)
             manifestGenericUI(JsonHelper.getJsonData(this));
-        else if (dataIntent.getBooleanExtra("isComposite", false)) {
-            isComposite = true;
+        else {
             try {
                 keyValues = JsonHelper.toMap(new JSONObject(dataIntent.getStringExtra("valuesJson")));
             } catch (JSONException e) {
                 Log.e(LOG_TAG, e.getMessage());
             }
             ReportListModel reportListModel = (ReportListModel) dataIntent.getSerializableExtra("data");
-            showEditScreen(reportListModel);
-        } else {
-            ReportListModel reportListModel = (ReportListModel) dataIntent.getSerializableExtra("data");
-            try {
-                keyValues = JsonHelper.toMap(new JSONObject(dataIntent.getStringExtra("valuesJson")));
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, e.getMessage());
-            }
-            isEdit = true;
             showEditScreen(reportListModel);
         }
 
@@ -252,7 +244,7 @@ public class ReportActivity extends AppCompatActivity {
                     listModel.setReportDataModelList(reportdataModel.getComposite());
                     Intent compositeIntent = new Intent(ReportActivity.this, ReportActivity.class);
                     compositeIntent.putExtra("data", (Serializable) listModel);
-//                    compositeIntent.putExtra("isComposite", true);
+                    compositeIntent.putExtra("isComposite", true);
                     compositeIntent.putExtra("isEdit", true);
                     compositeIntent.putExtra("valuesJson", String.valueOf(keyValues.get(reportdataModel.getFieldName())));
                     compositeIntent.putExtra("field", reportdataModel.getFieldName());
@@ -281,8 +273,7 @@ public class ReportActivity extends AppCompatActivity {
                 View childView = compositeLayout.getChildAt(i);
                 if (childView instanceof TextView) {
                     TextView text = (TextView) childView;
-                    if (!text.getText().toString().equalsIgnoreCase(data.getStringExtra("field")))
-                        text.setText(object.getString(JsonHelper.getUpperCaseString(text.getText().toString())));
+                    text.setText(object.getString(JsonHelper.getUpperCaseString(text.getText().toString())));
                 }
             }
         } catch (JSONException e) {
@@ -374,7 +365,7 @@ public class ReportActivity extends AppCompatActivity {
         }
         if (!isEdit && !isComposite)
             setResultToMainActivity();
-        else if (isEdit)
+        else if (isEdit && !isComposite)
             setResultForEdit();
         else
             setResultForSelf();
