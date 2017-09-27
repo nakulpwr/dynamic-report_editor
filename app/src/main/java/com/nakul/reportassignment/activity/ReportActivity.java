@@ -230,26 +230,18 @@ public class ReportActivity extends AppCompatActivity {
         compositeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!keyValues.containsKey(reportdataModel.getFieldName())) {
-                    ReportListModel listModel = new ReportListModel();
-                    listModel.setReportDataModelList(reportdataModel.getComposite());
-                    Intent compositeIntent = new Intent(ReportActivity.this, ReportActivity.class);
-                    compositeIntent.putExtra("data", (Serializable) listModel);
-                    compositeIntent.putExtra("isComposite", true);
-                    compositeIntent.putExtra("valuesJson", new JSONObject().toString());
-                    compositeIntent.putExtra("field", reportdataModel.getFieldName());
-                    startActivityForResult(compositeIntent, COMPOSITE_REQUEST);
-                } else {
-                    ReportListModel listModel = new ReportListModel();
-                    listModel.setReportDataModelList(reportdataModel.getComposite());
-                    Intent compositeIntent = new Intent(ReportActivity.this, ReportActivity.class);
-                    compositeIntent.putExtra("data", (Serializable) listModel);
-                    compositeIntent.putExtra("isComposite", true);
+
+                ReportListModel listModel = new ReportListModel();
+                listModel.setReportDataModelList(reportdataModel.getComposite());
+                Intent compositeIntent = new Intent(ReportActivity.this, ReportActivity.class);
+                compositeIntent.putExtra("data", (Serializable) listModel);
+                if (keyValues.containsKey(reportdataModel.getFieldName()))
                     compositeIntent.putExtra("isEdit", true);
-                    compositeIntent.putExtra("valuesJson", String.valueOf(keyValues.get(reportdataModel.getFieldName())));
-                    compositeIntent.putExtra("field", reportdataModel.getFieldName());
-                    startActivityForResult(compositeIntent, COMPOSITE_REQUEST);
-                }
+                compositeIntent.putExtra("isComposite", true);
+                compositeIntent.putExtra("valuesJson", new JSONObject().toString());
+                compositeIntent.putExtra("field", reportdataModel.getFieldName());
+                startActivityForResult(compositeIntent, COMPOSITE_REQUEST);
+
             }
         });
         reportDataModelsList.add(reportdataModel);
